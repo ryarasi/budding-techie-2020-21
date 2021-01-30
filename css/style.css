@@ -20,6 +20,12 @@ body {
   display: block;
 }
 
+.prize-link {
+  color: red;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 @media only screen and (max-width: 800px) {
   body {
     width: 100%;
