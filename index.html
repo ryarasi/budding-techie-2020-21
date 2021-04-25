@@ -6,10 +6,16 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
     <link rel="icon" href="images/icons/favicon.ico" type="image/x-icon" />
     <!--===============================================================================================-->
-    <link
+    <!-- <link
       rel="stylesheet"
       type="text/css"
       href="vendor/bootstrap/css/bootstrap.min.css"
+    /> -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
     />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
@@ -29,6 +35,23 @@
     <link rel="stylesheet" type="text/css" href="css/util.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <!--===============================================================================================-->
+    <!-- JavaScript -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/present_scores.js"></script>
   </head>
   <body>
     <a
@@ -63,6 +86,89 @@
       width="300px"
     />
 
+    <!-- Participant Info Modal -->
+    <div
+      class="modal fade"
+      id="participant-info-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4
+              class="modal-title"
+              style="text-align: center"
+              id="participant-info-modal-title"
+            ></h4>
+            <hr />
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="participant-project-link"></p>
+            <hr />
+            <h5>Project description by student</h5>
+            <hr />
+            <div id="participant-student-remarks"></div>
+            <hr />
+            <p>Total</p>
+            <div class="progress" id="participant-total-score"></div>
+            <hr />
+            <p>Complexity</p>
+            <div class="progress" id="participant-complexity-score"></div>
+            <hr />
+            <p>Creativity</p>
+            <div class="progress" id="participant-creativity-score"></div>
+            <hr />
+            <p>Learning to learn</p>
+            <div class="progress" id="participant-learning-score"></div>
+            <hr />
+            <p>Originality</p>
+            <div class="progress" id="participant-originality-score"></div>
+            <hr />
+            <p>Code Quality</p>
+            <div class="progress" id="participant-code-score"></div>
+            <hr />
+            <h5>Grader Remarks</h5>
+            <hr />
+            <div id="participant-grader-remarks"></div>
+            <hr />
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="close-participant-info-modal"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      id="participant-info-modal-trigger"
+      style="visibility: hidden"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#participant-info-modal"
+    >
+      Launch participant info modal
+    </button>
+
     <div class="limiter">
       <div class="container-table100">
         <div class="wrap-table100">
@@ -96,7 +202,8 @@
           <hr />
 
           <div class="table100 ver6">
-            <table data-vertable="ver6">
+            <div id="winner-cards"></div>
+            <!-- <table data-vertable="ver6">
               <thead>
                 <tr class="row100 head">
                   <th class="column100 column1" data-column="column1">#</th>
@@ -144,7 +251,7 @@
                   <td class="column100 column6" data-column="column6">--</td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
           </div>
 
           <hr />
@@ -164,7 +271,8 @@
           </p>
           <hr />
           <div class="table100 ver6">
-            <table data-vertable="ver6">
+            <div id="participant-cards"></div>
+            <!-- <table data-vertable="ver6">
               <thead>
                 <tr class="row100 head">
                   <th class="column100 column1" data-column="column1">#</th>
@@ -184,7 +292,11 @@
               <tbody>
                 <tr class="row100">
                   <td class="column100 column1" data-column="column1">1</td>
-                  <td class="column100 column2" data-column="column2">
+                  <td
+                    class="column100 column2"
+                    data-column="column2"
+                    onClick="showParticipantInfo(0)"
+                  >
                     Deepasri. S
                   </td>
 
@@ -559,7 +671,7 @@
                   <td class="column100 column6" data-column="column6">--</td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
           </div>
 
           <hr />

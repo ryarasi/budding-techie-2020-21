@@ -32,6 +32,19 @@ html {
   font-family: sans-serif;
 }
 
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  grid-gap: 10px;
+  background: #7918f2;
+}
+
+.card {
+  background: var(--tertiary);
+  cursor: pointer;
+  font-weight: bold;
+}
+
 /* ------------------------------------ */
 a {
   margin: 0px;
@@ -167,12 +180,12 @@ td {
 
 a {
   color: white;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 a:hover {
   color: red;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 /*==================================================================
