@@ -34,15 +34,16 @@ html {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
   grid-gap: 10px;
-  background: #7918f2;
+  background: #d1d1d1;
 }
 
 .card {
-  background: var(--tertiary);
+  background: rgba(121, 24, 242, 0.6);
   cursor: pointer;
   font-weight: bold;
+  height: 100px;
 }
 
 /* ------------------------------------ */
@@ -180,7 +181,7 @@ td {
 
 a {
   color: white;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 a:hover {

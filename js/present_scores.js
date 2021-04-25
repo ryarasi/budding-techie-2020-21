@@ -436,12 +436,16 @@ function renderWinnerCards() {
   const participants = sortedScores;
   for (let i = 0; i < 3; i++) {
     const participant = participants[i];
+    const total = (participant[headers[8]] * 100) / 50;
+    const participationPrize = participant[headers[7]] === "Yes" ? " 🎖️" : "";
     const participantName =
       '<p id="participant-name">' +
       "#" +
       (i + 1).toString() +
       ". " +
       participant[headers[0]] +
+      " 🏆 " +
+      participationPrize +
       ' <span id="participant-sub-name"> (' +
       participant[headers[2]] +
       " Std, " +
@@ -452,7 +456,15 @@ function renderWinnerCards() {
         i +
         ')" class="ui card"  style=" margin: 5px; text-align: center;"> <div class="content">     <a class="header">' +
         participantName +
-        "</a>     </div>"
+        '</a> <div class="progress-bar progress-bar-striped bg-' +
+        progressColor(total) +
+        '" role="progressbar" style="width: ' +
+        total +
+        '%" aria-valuenow="' +
+        total / 50 +
+        '" aria-valuemin="0" aria-valuemax="50"> <span style="font-size: 1.2em">' +
+        total / 2 +
+        " / 50</span></div>   </div>"
     );
     $("#winner-cards").append(cardGroup);
   }
@@ -464,12 +476,15 @@ function renderParticipantCards() {
   const participants = sortedScores;
   for (let i = 3; i < participants.length; i++) {
     const participant = participants[i];
+    const total = (participant[headers[8]] * 100) / 50;
+    const participationPrize = participant[headers[7]] === "Yes" ? " 🎖️" : "";
     const participantName =
       '<p id="participant-name">' +
       "#" +
       (i + 1).toString() +
       ". " +
       participant[headers[0]] +
+      participationPrize +
       ' <span id="participant-sub-name"> (' +
       participant[headers[2]] +
       " Std, " +
@@ -480,36 +495,18 @@ function renderParticipantCards() {
         i +
         ')" class="ui card"  style=" margin: 5px; text-align: center;"> <div class="content">     <a class="header">' +
         participantName +
-        "</a>     </div>"
+        '</a> <div class="progress-bar progress-bar-striped bg-' +
+        progressColor(total) +
+        '" role="progressbar" style="width: ' +
+        total +
+        '%" aria-valuenow="' +
+        total / 50 +
+        '" aria-valuemin="0" aria-valuemax="50"> <span style="font-size: 1.2em">' +
+        total / 2 +
+        " / 50</span></div>   </div>"
     );
-    // $(cardGroup).append(
-    //   '<span class="card" style="width: 18rem; margin: 5px; text-align: center;  background: ' +
-    //     teamCardBackgroundColor(team.status) +
-    //     ';">' +
-    //     '<div class="img-container"><img  style="cursor: pointer;" onclick="showTeamInfo(\'' +
-    //     team.id +
-    //     '\')" src="' +
-    //     team["logo"] +
-    //     '" alt="' +
-    //     team["name"] +
-    //     '"></div><div class="card-body"><h5 class="card-title" onclick="showTeamInfo(\'' +
-    //     team.id +
-    //     '\')" style="cursor: pointer; background: #9b4932; color: white;">' +
-    //     team["name"] +
-    //     '</h5><ul class="container" style="list-style-type: none;text-align: left;">' +
-    //     '<li class="card-text">Average Score: <b>' +
-    //     team["scorePercent"] +
-    //     '%</b></li><li class="card-text">Average Late: <b>' +
-    //     team["averageLate"] +
-    //     '</b></li><li class="card-text">Average Missed: <b>' +
-    //     team["averageMissed"] +
-    //     "</b></li></ul>" +
-    //     " </span>"
-    // );
-    //            if ((i + 1) % 5 == 0) {
+
     $("#participant-cards").append(cardGroup);
-    //                cardGroup = initializeCardGroup();
-    //            }
   }
 }
 
@@ -533,6 +530,10 @@ function showParticipantInfo(participantIndex) {
       participant[headers[1]] +
       ")"
   );
+  const participationPrize =
+    participant[headers[7]] === "Yes"
+      ? "Qualifies for participation Prize"
+      : "Doesn't qualify for participation Prize";
   const total = (participant[headers[8]] * 100) / 50;
   const complexity = (participant[headers[9]] * 100) / 10;
   const creativity = (participant[headers[10]] * 100) / 10;
@@ -541,11 +542,19 @@ function showParticipantInfo(participantIndex) {
   const code = (participant[headers[13]] * 100) / 10;
   $("#participant-project-link").empty();
   $("#participant-project-link").append(
-    'Link - <a style="color: red;" href=" ' +
+    '<b>Link</b> - <a style="color: red;" href=" ' +
       participant[headers[6]] +
       '" target="_blank" rel="noopener noreferrer">' +
       participant[headers[6]] +
       "</a>"
+  );
+  $("#participant-leaderboard-score").empty();
+  $("#participant-leaderboard-score").append(
+    "<p><b>Classroom Score</b> - " +
+      participant[headers[5]] +
+      " (" +
+      participationPrize +
+      ")</p>"
   );
   $("#participant-total-score").empty();
   $("#participant-total-score").append(
